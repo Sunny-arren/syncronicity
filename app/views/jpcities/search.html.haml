@@ -1,0 +1,23 @@
+.body
+  .jp-search-field
+    .jp-search-field__top
+    .jp-search-field__middle
+      .jp-search-field__middle__stage
+        %p.jp-search-field__middle__stage__latitude 
+          ◆◆◆◆◆◆類似緯度サーチ◆◆◆◆◆◆ 
+        %p.jp-search-field__middle__stage__latitude 
+          任意の日本の都市名をご入力ください＾＾
+        .jp-search-field__middle__stage__latitude__form-box
+          .jp-search-field__middle__stage__latitude__form-box__form
+            = form_tag('/jpcities/search', method: :search,type:'text',class:'clearfix') do
+              -# = text_field
+              -# = submit_tag
+              = fa_icon 'search fa-lg',class:'submit'
+        %p.jp-search-field__middle__stage__climate 
+          ◆◆◆◆◆◆類似気候サーチ◆◆◆◆◆◆
+        .jp-search-field__middle__stage__climate__form-box
+          .jp-search-field__middle__stage__climate__form-box__form
+            = form_tag('/jpcities/search', method: :search,type:'text',class:'clearfix') do
+              -# = text_field
+              = fa_icon 'search fa-lg',class:'submit'
+    .jp-search-field__bottom

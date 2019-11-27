@@ -1,0 +1,2 @@
+class Jpclimate < ApplicationRecord
+end

@@ -1,0 +1,2 @@
+class Chclimate < ApplicationRecord
+end

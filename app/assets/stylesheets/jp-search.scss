@@ -1,0 +1,111 @@
+@mixin from-box-style{
+  width:240px;        
+  margin:auto;
+  display: flex;
+  justify-content: center;
+}
+
+@mixin formstyle_1{
+  width:200px;
+  height:22px;
+  background-color: #e4dada;
+  border-radius: 1em;
+  float:left;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(204, 204, 204);
+  border-image: initial;
+}
+
+@mixin formstyle_2{
+  outline: none;
+  border-color: #1e7dd4;
+}
+
+@mixin submit_style{
+  width:22px;
+  height:22px;
+  border-radius: 0.5em;
+  font-size:13px;
+  padding-top:5px;
+  padding-left:2px;
+  color:black;
+  float:right;  
+}
+
+@mixin textstyle_1{
+  color:white;
+  font-family: sans-serif;
+  text-align: center;
+  font-size: 19px;
+  opacity:1.0;
+  padding-bottom:5px;
+  text-shadow:
+  1px 1px #aaa,
+  2px 2px #999,
+  3px 3px #888,
+  4px 4px #777,
+}
+
+.jp-search-field{
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  &__top{
+  width:100%;
+  height:400px;
+  background-color:blue;
+  opacity:0.2;
+  }
+  &__middle{
+  width: 100%;
+  height:210px;
+    &__stage{
+      padding-top:30px;
+      padding-left:5px;
+      height:200px;
+      width:700px;
+      margin:0 auto;
+      &__latitude{
+      @include textstyle_1;
+      &__form-box{
+      @include from-box-style;
+        &__form{          
+          .clearfix{
+          @include formstyle_1;
+          }
+          .clearfix:focus{
+          @include formstyle_2;
+          }   
+            .submit{
+            @include submit_style;
+            }
+        }
+      }
+      }
+      &__climate{
+      @include textstyle_1;
+      padding-top:5px;
+      &__form-box{
+      @include from-box-style;
+        &__form{          
+          .clearfix{
+          @include formstyle_1;
+          }
+          .clearfix:focus{
+          @include formstyle_2;         
+          }
+            .submit{
+            @include submit_style;
+            }
+        }      
+      }      
+      }
+   }
+  &__bottom{
+  width:100%;
+  height:35px;
+  }
+ }
+}
