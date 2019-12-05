@@ -8,12 +8,20 @@ class ChcitiesController < ApplicationController
 
   def chcity_params
     params.require(:chcity).permit(
-      :name,
-      :prov_ch
-      :name_sim,
-      :temp,
-      :precip,
-      :latitude
+      :jpkanji,
+      :hira,
+      :simplified,
+      :pinyin,
+      :prov 
+    ).include(:chcity2).permit(
+      :latitude,
+      :longitude,
+      :income,
+      :r_price,
+      :popul,
+      :size,
+      :dense,
+      :chcity_id
     )
   end
 end

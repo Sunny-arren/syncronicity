@@ -1,14 +1,15 @@
 class CreateChcity2s < ActiveRecord::Migration[5.2]
   def change
     create_table :chcity2s do |t|
-      t.integer :lati, null: false
-      t.integer :longi, null:false
-      t.integer :prov_id, null:false
-      t.integer :popul, null:false
-      t.integer :size, null:false
-      t.integer :dens, null:false
-      t.integer :income
-      t.integer :r_price
+      t.float "latitude", null: false
+      t.float "longitude", null: false
+      t.integer "prov", null: false
+      t.integer "income"
+      t.integer "r_price"
+      t.integer "popul"
+      t.integer "size"
+      t.integer "dense"
+      t.integer "chcity_id"
       t.timestamps
     end
   end

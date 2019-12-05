@@ -10,30 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_27_092513) do
+ActiveRecord::Schema.define(version: 2019_12_03_113043) do
 
   create_table "chcities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "jpkanji", null: false
+    t.string "hira"
+    t.string "simplified", null: false
+    t.string "pinyin", null: false
+    t.string "prov", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "jpkanji"
-    t.string "hira"
-    t.string "simplified"
-    t.string "pinyin"
-    t.integer "prov_id"
   end
 
   create_table "chcity2s", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.float "lati", null: false
-    t.float "longi", null: false
-    t.integer "prov_id", null: false
-    t.integer "popul", null: false
-    t.integer "size", null: false
-    t.integer "dens", null: false
+    t.float "latitude", null: false
+    t.float "longitude", null: false
+    t.integer "prov", null: false
     t.integer "income"
     t.integer "r_price"
+    t.integer "popul"
+    t.integer "size"
+    t.integer "dense"
+    t.integer "chcity_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "chcity_id"
   end
 
   create_table "chclimates", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -47,28 +47,28 @@ ActiveRecord::Schema.define(version: 2019_11_27_092513) do
   end
 
   create_table "jpcities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "pref", null: false
+    t.string "jpkanji", null: false
+    t.string "simplified", null: false
+    t.string "hira", null: false
+    t.string "alphabet", null: false
+    t.string "pinyin"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "simplified"
-    t.string "jpkanji"
-    t.string "hira"
-    t.string "alphabet"
-    t.string "pinyin"
-    t.integer "pref_id"
   end
 
   create_table "jpcity2s", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.float "lati", null: false
-    t.float "longi", null: false
-    t.integer "pref_id", null: false
-    t.integer "popul", null: false
-    t.integer "size", null: false
-    t.integer "dens", null: false
+    t.float "latitude", null: false
+    t.float "longitude", null: false
+    t.string "pref", null: false
     t.integer "income"
     t.integer "r_price"
+    t.integer "popul"
+    t.integer "size"
+    t.integer "dense"
+    t.integer "jpcity_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "jpcity_id"
   end
 
   create_table "jpclimates", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -77,15 +77,13 @@ ActiveRecord::Schema.define(version: 2019_11_27_092513) do
     t.integer "rain", null: false
     t.integer "warmin"
     t.integer "cldiv_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "prefectures", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
+    t.string "simplified"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "sim_name"
   end
 
   create_table "provinces", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
