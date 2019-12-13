@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :jpcities do
     collection do
       get 'search' 
+      get 'search_result'
     end
   end
   resources :chcities

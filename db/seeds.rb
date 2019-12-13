@@ -8,17 +8,17 @@
 
 require "csv"
 
-# CSV.foreach('db/prefectures.csv', headers: true) do |row|
-#   Prefecture.create(name: row[0], simplified: row[1])
-# end
+CSV.foreach('db/prefectures.csv', headers: true) do |row|
+  Prefecture.create(name: row[0], simplified: row[1])
+end
 
-# CSV.foreach('db/provinces.csv', headers: true) do |row|
-#   Province.create(
-#     jpkanji: row[0],    
-#     simplified: row[1],
-#     pinyin: row[2]
-#   )
-# end
+CSV.foreach('db/provinces.csv', headers: true) do |row|
+  Province.create(
+    jpkanji: row[0],    
+    simplified: row[1],
+    pinyin: row[2]
+  )
+end
 
 CSV.foreach('db/jpcities.csv', headers: true) do |row|
   Jpcity.create(
@@ -41,30 +41,39 @@ CSV.foreach('db/chcities.csv', headers: true) do |row|
   )
 end
 
-# CSV.foreach('db/chcity2s.csv', headers: true) do |row|
-#   Chcity2.create(
-#     latitude: row[1],
-#     longitude: row[2],
-#     prov: row[3],
-#     income:row[7],
-#     r_price:row[8],
-#     chcity_id: row[0],
-#     popul: row[4],
-#     size: row[5],
-#     dense:row[6]   
-#   )
-# end
+CSV.foreach('db/chcity2s.csv', headers: true) do |row|
+  Chcity2.create(
+    latitude: row[1],
+    longitude: row[2],
+    prov: row[3],
+    income:row[7],
+    r_price:row[8],
+    chcity_id: row[0],
+    popul: row[4],
+    size: row[5],
+    dense:row[6],
+    latitude_id:row[9]
+  )
+end
 
-# CSV.foreach('db/jpcity2s.csv', headers: true) do |row|
-#   Jpcity2.create(
-#     latitude: row[0],
-#     longitude: row[1],
-#     pref: row[2],
-#     r_price:row[3],
-#     income:row[4],
-#     jpcity_id: row[5],
-#     popul: row[6],
-#     size: row[7],
-#     dense:row[8] 
+CSV.foreach('db/jpcity2s.csv', headers: true) do |row|
+  Jpcity2.create(
+    latitude: row[0],
+    longitude: row[1],
+    pref: row[2],
+    r_price:row[3],
+    income:row[4],
+    jpcity_id: row[5],
+    popul: row[6],
+    size: row[7],
+    dense:row[8],
+    latitude_id:row[9]
+  )
+end
+
+# CSV.foreach('db/latitudes.csv', headers: true) do |row|
+#   Latitude.create(
+#     lat_min: row[0],
+#     lat_max: row[1]
 #   )
 # end

@@ -6,6 +6,7 @@ class JpcitiesController < ApplicationController
     @jpcity_name = Jpcity.where('jpkanji LIKE(?)', "%#{params[:keyword]}%").limit(6)
     @jpcity_hira = Jpcity.where('hira LIKE(?)', "%#{params[:keyword]}%").limit(6)
     @jpcity_alpha = Jpcity.where('alphabet LIKE(?)', "%#{params[:keyword]}%").limit(6)
+
     if @jpcity_name != []
       @jpcities = @jpcity_name
     elsif @jpcity_hira != []
@@ -18,20 +19,22 @@ class JpcitiesController < ApplicationController
      format.json{render json:@jpcities}
     end
   end
+ 
+ def search_result
+  @jpcity = Jpcity.find_by(jpkanji: params[:keyword])
+  # @jpcity = Jpcity.find_by(params[:jpkanji])
+  render action: :show
+ end
+
+ def show 
+    # @latitude_id = ((@jpcity.jpcity2.latitude_id+1)..(@jpcity.jpcity2.latitude_id-1))
+    # @chcity = Chcity.where(params[chcity2_attributes:[latitude_id:"#{@latitude_id}"]]).order('latitude DESC').limit(3)
+    # @jpcity_name = Jpcity.find(params[:id])
+ end
+
+ private
 
  def jpcity_params
-    params.require(:jpcity).permit(
-      :pref,
-      :jpkanji,
-      :simplified,
-      :hira,
-      :alphabet
-    )
- end
- class JpcitiesController < ChcitiesController
-  def show
-    @jpcity = Product.find(params[:id])
-    @chcity = Chcity.where(latitude: chcity.latitude <= @jpcity.latitude+ 0.5 || chcity.latitude >= @jpcity.latitude-0.5).order('latitude DESC').limit(3)
-  end
+  params.permit(:pref,:jpkanji,:simplified,:hira,:alphabet)
  end
 end

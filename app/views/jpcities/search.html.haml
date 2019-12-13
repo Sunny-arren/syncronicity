@@ -9,18 +9,18 @@
           任意の日本の都市名をご入力ください＾＾
         .jp-search-field__middle__stage__latitude__form-box
           .jp-search-field__middle__stage__latitude__form-box__form
-            = form_tag('/jpcities/show', method: :get) do
-              %input.search-form{name:"keyword", placeholder: "日本の都市名", type: "text", class:'clearfix',style:'padding-left:10px;'}
+            = form_tag("jpcities/search_result", method: :get) do
+              %input.search-form-lat{name:"keyword", placeholder: "日本の都市名", type: "string", class:'clearfix_lat',style:'padding-left:10px;'}
               %label.search-icon.submit-stage
                 = fa_icon 'search fa-lg',class:'submit'
-              #jpcity-search-result
+              #jpcity-search-result-latitude
         %p.jp-search-field__middle__stage__climate 
           ◆◆◆◆◆◆類似気候サーチ◆◆◆◆◆◆
         .jp-search-field__middle__stage__climate__form-box
           .jp-search-field__middle__stage__climate__form-box__form
-            = form_tag('/jpcities/search', method: :get) do
-              %input.search-form{name:"keyword", placeholder: "日本の都市名", type: "text", class:'clearfix',style:'padding-left:10px;'}
+            = form_tag("jpcities/search_result", method: :get) do
+              %input.search-form-cl{name:"keyword", placeholder: "日本の都市名", type: "text", class:'clearfix_cli',style:'padding-left:10px;'}
               %label.search-icon.submit-stage 
                 = fa_icon 'search fa-lg',class:'submit'
-              #jpcity-search-result
+              #jpcity-search-result-climate
     .jp-search-field__bottom

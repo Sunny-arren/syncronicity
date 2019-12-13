@@ -1,8 +1,56 @@
-.similar-chcity
-  .similar-chcity__name
-    = @chcity.jpkanji
-  .similar-chcity__simplified
-    = @chcity.simplified
-  .similar-chcity__latitude-longitude
-    = @chcity.latitude  
-    = @chcity.longitude
+-# .similar-city-header
+-#   .similar-city-header__textarea
+-#   .similar-city-header__button-box
+
+.hero.is-info.is-bold
+  .hero-body{style:'padding-top: 35px; padding-bottom: 35px;'}
+    .container
+      %h1.title Latitude Similar Cities in China
+      %h2.subtitle > from Japanese city
+      .level-right
+        .level-item
+        %a.button.is-primary searchへ戻る
+        %a.button.is-success{style: 'margin-left: 10px;'} Change Country
+%main.columns
+  .submenu.column.is-3
+    %aside.box{style: 'margin-top: 10px;'} 
+      = "あなたの選んだ都市は、#{@jpcity.jpkanji}市です。"
+    %aside.box.menu
+      %p.menu-label
+        = "#{@jpcity.jpkanji}市のメイン情報"
+      %ul.menu-list
+        %li
+          %a{:href => "#"}
+            緯度：
+            %small{style:'text-transform: full-width;'}
+              = "#{@jpcity.jpcity2.latitude}"
+            %br 
+            %small{style:'text-transform: full-width;'}
+              = "（経度：#{@jpcity.jpcity2.longitude}）"
+        %li
+          %a{:href => "#"}
+            人口：
+            %small ５３８,９８９
+        %li
+          %a{:href => "#"}
+            面積：
+            %small ３９０㎢
+        %li
+          %a{:href => "#"}
+            人口密度：
+            %small ３４.５人
+      %p.menu-label
+        その他情報
+      %ul.menu-list
+        %li
+          %a{:href => "#"} 
+            気候区分
+        %li
+          %a.is-active{:href => "#"} 経済情報
+          %ul
+            %li
+              %a{:href => "#"} 年間平均所得
+            %li
+              %a{:href => "#"} 不動産価格
+        %li
+          %a{:href => "#"}
