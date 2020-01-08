@@ -2,13 +2,26 @@
 %html
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:content => "initial-scale=1.0, user-scalable=no", :name => "viewport"}/
     %title Syncronicity
     = csrf_meta_tags
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
     %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/bulma/0.1.2/css/bulma.css", :rel => "stylesheet"}/
     %link{:href => "https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css", :rel => "stylesheet"}/
-
-
-  %body
-    = yield
+    = include_gon
+    %script{:src => "//api.map.baidu.com/api?v=2.0&ak=x3kgbGH3kniTjXldTCr82pTn8tGKf6qV", :type => "text/javascript"}
+:css
+  main {
+    background-color: #eeeeee;
+  }
+  #allmap1,#allmap2,#allmap3,#allmap4 {
+    width: 320px; 
+    height: 320px; 
+    overflow: hidden; 
+    margin:0; 
+    font-family:"微软雅黑"; 
+    background-repeat: no-repeat;
+  }
+%body
+  = yield

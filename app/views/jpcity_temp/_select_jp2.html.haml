@@ -1,0 +1,149 @@
+%main.columns{style: 'margin-top: 1px;'} 
+  .column.is-one-third
+    %article.box.media
+      .media-content
+        -if @selected_jpcities.count == 1 
+          - @select_jp1 = Jpcity.find(@ordered_jpcities[0][0])
+        -elsif @selected_jpcities.count == 2 
+          - @select_jp1 = Jpcity.find(@ordered_jpcities[0][0])
+          - @select_jp2 = Jpcity.find(@ordered_jpcities[1][0])
+        -elsif @selected_jpcities.count == 3
+          - @select_jp1 = Jpcity.find(@ordered_jpcities[0][0])
+          - @select_jp2 = Jpcity.find(@ordered_jpcities[1][0])      
+          - @select_jp3 = Jpcity.find(@ordered_jpcities[2][0]) 
+        -elsif @selected_jpcities.count >= 4
+          - @select_jp1 = Jpcity.find(@ordered_jpcities[0][0])
+          - @select_jp2 = Jpcity.find(@ordered_jpcities[1][0])      
+          - @select_jp3 = Jpcity.find(@ordered_jpcities[2][0]) 
+          - @select_jp4 = Jpcity.find(@ordered_jpcities[3][0])
+        .content
+          %p{style:'font-size: 16px; color: #69707a; line-height: 24px;'} 
+            类似纬度的日本城市是：
+          %strong{style:'font-size: 19px; text-align: 25px;'}
+            = "#{@select_jp2.pref}  #{@select_jp2.jpkanji} (#{@select_jp2.alphabet}) #{@select_jp2.kind}"
+          .level-item{style:'margin-top:7px'}
+            -if @selected_jpcities.count == 2
+              %input.button.is-danger{:onclick => "return_first_jp()",:type => "button", :value => "城市1", :class => "s1",:style =>'margin-right: 5px;'}              
+              %input.button.is-danger{:type => "button", :value => "城市2", :class => "s2",:style =>'margin-right: 5px;'}
+            -elsif @selected_jpcities.count == 3 
+              %input.button.is-danger{:onclick => "return_first_jp()",:type => "button", :value => "城市1", :class => "s1",:style =>'margin-right: 5px;'}                  
+              %input.button.is-danger{:type => "button", :value => "城市2", :class => "s2",:style =>'margin-right: 5px;'}
+              %input.button.is-danger{:type => "button", :value => "城市3", :class => "s3",:style =>'margin-right: 5px;'}
+            -elsif @selected_jpcities.count >= 4
+              %input.button.is-danger{:onclick => "return_first_jp()",:type => "button", :value => "城市1", :class => "s1",:style =>'margin-right: 5px;'}                  
+              %input.button.is-danger{:type => "button", :value => "城市2", :class => "s2",:style =>'margin-right: 5px;'}
+              %input.button.is-danger{:type => "button", :value => "城市3", :class => "s3",:style =>'margin-right: 5px;'}                  
+              %input.button.is-danger{:type => "button", :value => "城市4", :class => "s4",:style =>'margin-right: 5px;'}
+        %article.media
+          .media-content
+            .content
+              %p.menu-label{style:'background-color: #e84135; color: white; font-size:13px;'}
+                = "#{@select_jp2.jpkanji} #{@select_jp2.kind} 基本信息"
+              %ul.menu-list
+              %li{style:'list-style: none;'}
+                %p{style:'margin-left: 10px;'}
+                  纬度：
+                  %small{style:'text-transform: full-width; text-decoration: none;'}
+                    = "N#{@select_jp2.jpcity2.lati}"
+                  %br 
+                  %small{style:'text-transform: full-width; text-decoration: none;'}
+                    = "（经度：E#{@select_jp2.jpcity2.longi})"
+              %li{style:'list-style: none;'}
+                %p{style:'margin-left: 10px;'}
+                  人口：
+                  %small{style:'text-transform: full-width; text-decoration: none;'}
+                    - if @select_jp2.jpcity2.popul.present?
+                      = "#{@select_jp2.jpcity2.popul.to_s(:delimited)}万人" 
+              %li{style:'list-style: none;'}
+                %p{style:'margin-left: 10px;'}
+                  行政面积：
+                  %small{style:'text-transform: full-width; text-decoration: none;'}
+                    - if @select_jp2.jpcity2.size.present?
+                      = "#{@select_jp2.jpcity2.size.to_s(:delimited)} ㎢"
+              %p.menu-label{style:'background-color: #e84135; color: white; font-size:13px;'}
+                属于都市圈基本信息  
+              %ul.menu-list
+              %li{style:'list-style: none;'}
+                %p{style:'margin-left: 10px;'}
+                  都市圈名：
+                  %small{style:'text-transform: full-width;'}
+
+              %li{style:'list-style: none;'}
+                %p{style:'margin-left: 10px;'}
+                  面积，人口，人口密度：
+                  %small{style:'text-transform: full-width;'}  
+                
+              %li{style:'list-style: none;font-size:12px;'}
+                %p{style:'margin-left: 10px;'}
+                  （根据Demographica Urban Areas 15th 
+                  %br
+                    Annual Edition:201904)    
+            .content
+              %p.menu-label{style:'background-color: #e84135; color: white; font-size:13px;'}
+                经济相关信息
+                %ul.menu-list
+                %li{style:'list-style: none;'}
+                  %p{style:'margin-left: 10px;'}
+                    平均年收入：
+                    %small{style:'text-transform: full-width; text-decoration: none;'} 
+                      - if @select_jp2.jpcity2.income.present?
+                        = "#{@select_jp2.jpcity2.income.to_s(:delimited)} 日元"
+                %li{style:'list-style: none; margin-left: 10px;'}
+                  %p
+                    标准住宅地平均土地价格：
+                    %small{style:'text-transform: full-width; text-decoration: none;'}
+                      - if @select_jp2.jpcity2.r_price.present?
+                        = "#{@select_jp2.jpcity2.r_price.to_s(:delimited)} 日元"
+                %li{style:'list-style: none;font-size:12px;'}
+                  %p{style:'margin-left: 10px;'}
+                    （平均年收入：根据”年収ガイド" 2019年1月阅览，
+                    %br 
+                      标准住宅地平均土地价格：根据国土交通省网站，2019年1月调查）                              
+  .column.is-one-third
+    %article.box.media
+      .media-content
+        .content
+          %p.menu-label{style:'background-color: #e84135; color: white;font-size:13px'} 
+            = "#{@select_jp2.simplified}#{@select_jp2.kind} 气候相关信息"
+            %ul.menu-list
+            %li{style:'list-style: none; font-size:16px;'}
+              %p{style:'margin-left: 10px;font-size:13px;'}
+                气候区分：
+                %small{style:'text-transform: full-width; text-decoration: none;font-size:13px;'} 
+                  
+              %p{style:'margin-left: 10px;font-size:13px;'}
+                年平均气温/年降水量：
+                %small{style:'text-transform: full-width; text-decoration: none;'} 
+                  = "#{@select_jp2.jpclimate.temp_ave}℃  #{@select_jp2.jpclimate.rain_total}mm"
+              %p{style:'margin-left: 10px; font-size:13px;'}
+                平均最高气温最高的月和温度
+                %small{style:'text-transform: full-width; text-decoration: none;'}
+                  = "#{@select_jp2.jpclimate.max_temp_month}月 (#{@select_jp2.jpclimate.max_temp}℃)"
+              %p{style:'margin-left: 10px; font-size:13px;'}
+                平均最低气温最低的月和温度
+                %small{style:'text-transform: full-width; text-decoration: none;'}
+                  = "#{@select_jp2.jpclimate.min_temp_month}月 (#{@select_jp2.jpclimate.min_temp}℃)"
+              %p{style:'margin-left: 10px; font-size:13px;'}
+                温暖指数:
+                %small{style:'text-transform: full-width; text-decoration: none;'}
+                  = "#{@select_jp2.jpclimate.warmin}"
+          %p.menu-label{style:'background-color: #e84135; color: white; font-size: 13px;'} 
+            其他信息
+            %ul.menu-list
+            %li{style:'list-style: none;'}
+              %p{style:'margin-left: 10px;'}
+                简体字和中文拼音：
+                %small{style:'font-size:13px; text-decoration: none;'} 
+                  = "#{@select_jp2.simplified}(#{@select_jp2.pinyin}) #{@select_jp2.kind}"           
+              %p{style:'margin-left: 10px;'}
+                ：
+                %small{style:'text-transform: full-width; text-decoration: none;'} 
+              
+              %p{style:'margin-left: 10px;'}
+                ：
+                %small{style:'text-transform: full-width; text-decoration: none;'} 
+  .column.is-5
+    %article.box.media
+      .media-content
+        .content{style:'margin:0 auto'}
+          = render partial: "jpmap_temp/map_2",collection: [@select_jp2]

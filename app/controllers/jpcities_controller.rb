@@ -1,4 +1,5 @@
 class JpcitiesController < ApplicationController
+  # before_action :search_result, except: [:index, :search]
   def index
   end
   
@@ -19,21 +20,24 @@ class JpcitiesController < ApplicationController
      format.json{render json:@jpcities}
     end
   end
+
+  def search_result
+    @jpcity = Jpcity.find_by(jpkanji: params[:keyword])
+    @chcities = Chcity2.where(latitude_id: @jpcity.jpcity2.latitude_id-5..@jpcity.jpcity2.latitude_id+5)
+    @selected_chcities = []
+    @chcities.each do |data|
+      difference_lati = (data.lati - @jpcity.jpcity2.lati).abs
+      @selected_chcities << [data.chcity_id, difference_lati]
+    end
+    @ordered_chcities = []
+    @ordered_chcities = @selected_chcities.sort_by!{|a,b|b}.map{|k,v| k}.map.with_index{|v,i|[v,i]}
+    gon.ordered_chcities = @ordered_chcities
+  end
+
+  def show 
+  end 
  
- def search_result
-  @jpcity = Jpcity.find_by(jpkanji: params[:keyword])
-  # @jpcity = Jpcity.find_by(params[:jpkanji])
-  render action: :show
- end
-
- def show 
-    # @latitude_id = ((@jpcity.jpcity2.latitude_id+1)..(@jpcity.jpcity2.latitude_id-1))
-    # @chcity = Chcity.where(params[chcity2_attributes:[latitude_id:"#{@latitude_id}"]]).order('latitude DESC').limit(3)
-    # @jpcity_name = Jpcity.find(params[:id])
- end
-
  private
-
  def jpcity_params
   params.permit(:pref,:jpkanji,:simplified,:hira,:alphabet)
  end

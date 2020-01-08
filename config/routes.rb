@@ -7,9 +7,22 @@ Rails.application.routes.draw do
       get 'search_result'
     end
   end
-  resources :chcities
-    # collection do
-    #   get 'chcities/search' defaults: { format: 'json' }
-    # end
-  # end
+  resources :chcities do
+    collection do
+      get 'search' 
+      get 'search_result'
+    end
+  end
+  resources :jpclimates do
+    collection do
+      get 'search' 
+      get 'search_result'
+    end
+  end
+  resources :chclimates do
+    collection do
+      get 'search' 
+      get 'search_result'
+    end
+  end
 end

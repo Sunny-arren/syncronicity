@@ -1,0 +1,28 @@
+!!!
+%html
+  %head
+    %title 根据城市名设置地图中心点
+  %body
+    .map-ch_4{style: "display:flex;"}
+      .map-ch_4__box{style: "align-items: center;"}
+        %strong
+          地図（featuring 百度）
+        %input.button.is-danger.map_emerge4{type: "button", value: "表示",style:"font-size:12px; height:24px;"}  
+    #allmap4{style: "margin-top:5px;"}
+%html
+  :javascript
+    // 百度地图API功能
+    	var map4 = new BMap.Map("allmap4");    // 创建Map实例
+      var opts = {type: BMAP_NAVIGATION_CONTROL_SMALL};    
+    	map4.centerAndZoom("#{@select_jp4.simplified}", 6);  // 初始化地图,设置中心点坐标和地图级别
+      setTimeout(function(){
+        map4.setZoom(10);
+        }
+        ,3000); 
+      //添加地图类型控件
+    	map4.addControl(new BMap.NavigationControl(opts));
+      map4.addControl(new BMap.MapTypeControl({
+    		mapTypes:[
+                BMAP_NORMAL_MAP,
+                BMAP_HYBRID_MAP
+            ]}));

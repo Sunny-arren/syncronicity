@@ -1,0 +1,28 @@
+.body
+  .ch-search-field
+    .ch-search-field__top
+    .ch-search-field__middle
+      .ch-search-field__middle__stage
+        %p.ch-search-field__middle__stage__latitude 
+          ++++++ 搜索类似纬度城市 ++++++ 
+        %p.ch-search-field__middle__stage__latitude 
+          请输入你任选的中国城市名＾＾
+        .ch-search-field__middle__stage__latitude__form-box
+          .ch-search-field__middle__stage__latitude__form-box__form
+            = form_tag("./search_result", method: :get) do
+              %input.search-form-lat{name:"keyword", placeholder: "中国城市名", type: "string", class:'clearfix_lat_ch',style:'padding-left:10px;'}
+                %label.search-icon.submit-stage_lat_ch
+                  = fa_icon 'search fa-lg' ,class: "submit_lat_ch"
+            #chcity-search-result-latitude
+        %p.ch-search-field__middle__stage__climate 
+          *-*-*-*-* 搜索类似气候城市 *-*-*-*-*
+        .ch-search-field__middle__stage__climate__form-box
+          .ch-search-field__middle__stage__climate__form-box__form
+            = form_tag({controller: :chclimates,action: :search_result}, method: :get) do
+              %input.search-form-cli{name:"keyword", placeholder: "中国城市名", type: "text", class:'clearfix_cli_ch',style:'padding-left:10px;'}
+                %label.search-icon.submit-stage_cli_ch
+                  = fa_icon 'search fa-lg',class: "submit_cli_ch"
+              #chcity-search-result-climate
+        .ch-search-field__middle__stage__change-button
+          %input.button.change_country{:onclick => "change_country_ch()",:type => "button", :value => "Change Country"}
+    .ch-search-field__bottom

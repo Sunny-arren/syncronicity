@@ -74,7 +74,6 @@
   &__top{
   width:100%;
   height:400px;
-  background-color:blue;
   opacity:0.2;
   }
   &__middle{
@@ -83,7 +82,7 @@
     &__stage{
       padding-top:30px;
       padding-left:5px;
-      height:200px;
+      height:250px;
       width:700px;
       margin:0 auto;
       &__latitude{
@@ -100,7 +99,7 @@
         .clearfix_lat:focus{
         @include formstyle_2;
         }   
-          .submit-stage{
+          .submit-stage_lat{
           @include submit_style;
           position:absolute;
           top:0;
@@ -125,16 +124,25 @@
           .clearfix_cli:focus{
           @include formstyle_2; 
           }
-            .submit-stage{
+            .submit-stage_cli{
             @include submit_style;
             position:absolute;
             top:0;
             right:0;
             cursor:pointer;
-            }
-        }      
-      }      
-      }
+            }            
+          }      
+        }
+       }
+      &__change-button{
+        display:flex;
+        justify-content: center;
+        .change_country{
+        margin-top:15px;
+        background-color:#ed6c63;
+        color:white;
+       }
+     }      
    }
   &__bottom{
   width:100%;
@@ -145,14 +153,14 @@
 
 #jpcity-search-result-latitude{
   @include search-result; 
-  .jpcitiy-name__id{
+  .jpcity__id{
     display: none;
   }
 }
 
 #jpcity-search-result-climate{
   @include search-result; 
-  .jpcitiy-name__id{
+  .jpcity__id{
     display: none;
   }
 }

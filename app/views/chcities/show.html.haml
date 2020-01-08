@@ -1,0 +1,273 @@
+.hero.is-info.is-bold
+  .hero-body{style:'padding-top: 35px; padding-bottom: 35px;'}    
+    .container
+      %h1.title Latitude Similar Cities in Japan
+      %h2.subtitle > from Chinese city
+      .level-right
+        .level-item
+        %input.button.is-primary.redirect_search{:onclick => "urlReplace_ch()", :type => "button", :value => "返回搜索"}        
+        %input.button.is-success.change_country{:onclick => "change_country_ch()",:style => 'margin-left: 10px;',:type => "button", :value => "Change Country"} 
+%main.columns
+  .submenu.column.is-3
+    %aside.box{style: 'margin-top: 11px;'} 
+      = "你选择的中国城市是："
+      %br 
+      %strong{style: 'font-weight: bold;'}
+        - @province = Province.find(@chcity.province_id)
+        - if @chcity.id >= 29 && @chcity.id <= 32
+          = "#{@chcity.simplified} (#{@chcity.kind})市です。"
+        - else
+          = "#{@province.simplified}  #{@chcity.simplified} #{@chcity.kind}"
+    %aside.box.menu{style:'font-size:13px; line-height:22px'}
+      %p.menu-label{style:'background-color: #21628072; color: white; font-size:13px;'}
+        = "#{@chcity.simplified} #{@chcity.kind} 基本信息"  
+      %ul.menu-list
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            纬度：
+            %small{style:'text-transform: full-width;'}
+              = "N#{@chcity.chcity2.lati}"
+            %br 
+            %small{style:'text-transform: full-width;'}
+              = "（经度：E#{@chcity.chcity2.longi}）"
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            人口：
+            %small{style:'text-transform: full-width;'} 
+              - if @chcity.chcity2.popul.present?
+                = "#{@chcity.chcity2.popul.to_s(:delimited)}万人"
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            行政面积：
+            %small{style:'text-transform: full-width;'} 
+              - if @chcity.chcity2.size.present?
+                = "#{@chcity.chcity2.size.to_s(:delimited)}㎢"
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+      %p.menu-label{style:'background-color: #21628072; color: white; font-size:13px;'}
+        属于都市圈基本信息
+      %ul.menu-list
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            都市圈名：
+            %small{style:'text-transform: full-width;'}
+
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            面积，人口，人口密度：
+            %small{style:'text-transform: full-width;'} 
+        
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            （根据Demographica Urban Areas 
+            %br 
+              15th Annual Edition:201904)             
+      %p.menu-label{style:'background-color: #21628072; color: white; font-size:13px;'}
+        经济相关信息
+      %ul.menu-list        
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            在岗职工平均年工资：
+            %small{style:'text-transform: full-width;'} 
+              - if @chcity.chcity2.income.present?
+                = "#{@chcity.chcity2.income.to_s(:delimited)}元"
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            住宅商品房平均销售价格:
+            %small{style:'text-transform: full-width;'}
+              %br
+                - if @chcity.chcity2.r_price.present?
+                  = "#{@chcity.chcity2.r_price.to_s(:delimited)}元/平方米"
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            （根据国家统计局网站，2020年1月1日阅览）
+      %p.menu-label{style:'background-color: #21628072; color: white; font-size:13px;'}
+        气候相关信息   
+      %ul.menu-list  
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            気候区分：
+          %small{style:'text-transform: full-width;'} 
+            
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            年平均気温/年降水量：
+            %small{style:'text-transform: full-width;'}
+              = "#{@chcity.chclimate.temp_ave}℃/#{@chcity.chclimate.rain_total}mm"
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            温暖指数：
+          %small{style:'text-transform: full-width;'}  
+            = "#{@chcity.chclimate.warmin}"
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            （根据Wikipedia，2020年1月1日阅览）    
+  %main.columns.detail#jp1{style: 'margin-top: 10px; margin-bottom:19px;'} 
+    %main.columns{style: 'margin-top: 1px;'} 
+      .column.is-one-third
+        %article.box.media
+          .media-content
+            -if @selected_jpcities.count == 1 
+              - @select_jp1 = Jpcity.find(@ordered_jpcities[0][0])
+            -elsif @selected_jpcities.count == 2 
+              - @select_jp1 = Jpcity.find(@ordered_jpcities[0][0])
+              - @select_jp2 = Jpcity.find(@ordered_jpcities[1][0])
+            -elsif @selected_jpcities.count == 3
+              - @select_jp1 = Jpcity.find(@ordered_jpcities[0][0])
+              - @select_jp2 = Jpcity.find(@ordered_jpcities[1][0])      
+              - @select_jp3 = Jpcity.find(@ordered_jpcities[2][0]) 
+            -elsif @selected_jpcities.count >= 4
+              - @select_jp1 = Jpcity.find(@ordered_jpcities[0][0])
+              - @select_jp2 = Jpcity.find(@ordered_jpcities[1][0])      
+              - @select_jp3 = Jpcity.find(@ordered_jpcities[2][0]) 
+              - @select_jp4 = Jpcity.find(@ordered_jpcities[3][0])
+            .content
+              %p{style:'font-size: 16px; color: #69707a; line-height: 24px;'} 
+                类似纬度的日本城市是：
+              %strong{style:'font-size: 19px; text-align: 25px;'}
+                = "#{@select_jp1.pref}  #{@select_jp1.jpkanji} (#{@select_jp1.alphabet}) #{@select_jp1.kind}"
+              .level-item{style:'margin-top:7px'}
+                -if @selected_jpcities.count == 2
+                  %input.button.is-danger{:onclick => "return_first_jp()",:type => "button", :value => "城市1", :class => "s1",:style =>'margin-right: 5px;'}              
+                  %input.button.is-danger{:type => "button", :value => "城市2", :class => "s2",:style =>'margin-right: 5px;'}
+                -elsif @selected_jpcities.count == 3 
+                  %input.button.is-danger{:onclick => "return_first_jp()",:type => "button", :value => "城市1", :class => "s1",:style =>'margin-right: 5px;'}                  
+                  %input.button.is-danger{:type => "button", :value => "城市2", :class => "s2",:style =>'margin-right: 5px;'}
+                  %input.button.is-danger{:type => "button", :value => "城市3", :class => "s3",:style =>'margin-right: 5px;'}
+                -elsif @selected_jpcities.count >= 4
+                  %input.button.is-danger{:onclick => "return_first_jp()",:type => "button", :value => "城市1", :class => "s1",:style =>'margin-right: 5px;'}                  
+                  %input.button.is-danger{:type => "button", :value => "城市2", :class => "s2",:style =>'margin-right: 5px;'}
+                  %input.button.is-danger{:type => "button", :value => "城市3", :class => "s3",:style =>'margin-right: 5px;'}                  
+                  %input.button.is-danger{:type => "button", :value => "城市4", :class => "s4",:style =>'margin-right: 5px;'}
+            %article.media
+              .media-content
+                .content
+                  %p.menu-label{style:'background-color: #e84135; color: white; font-size:13px;'}
+                    = "#{@select_jp1.jpkanji} #{@select_jp1.kind} 基本信息"
+                  %ul.menu-list
+                  %li{style:'list-style: none;'}
+                    %p{style:'margin-left: 10px;'}
+                      纬度：
+                      %small{style:'text-transform: full-width; text-decoration: none;'}
+                        = "N#{@select_jp1.jpcity2.lati}"
+                      %br 
+                      %small{style:'text-transform: full-width; text-decoration: none;'}
+                        = "（经度：E#{@select_jp1.jpcity2.longi})"
+                  %li{style:'list-style: none;'}
+                    %p{style:'margin-left: 10px;'}
+                      人口：
+                      %small{style:'text-transform: full-width; text-decoration: none;'}
+                        - if @select_jp1.jpcity2.popul.present?
+                          = "#{@select_jp1.jpcity2.popul.to_s(:delimited)}万人" 
+                  %li{style:'list-style: none;'}
+                    %p{style:'margin-left: 10px;'}
+                      行政面积：
+                      %small{style:'text-transform: full-width; text-decoration: none;'}
+                        - if @select_jp1.jpcity2.size.present?
+                          = "#{@select_jp1.jpcity2.size.to_s(:delimited)} ㎢"
+                  %p.menu-label{style:'background-color: #e84135; color: white; font-size:13px;'}
+                    属于都市圈基本信息  
+                  %ul.menu-list
+                  %li{style:'list-style: none;'}
+                    %p{style:'margin-left: 10px;'}
+                      都市圈名：
+                      %small{style:'text-transform: full-width;'}
+
+                  %li{style:'list-style: none;'}
+                    %p{style:'margin-left: 10px;'}
+                      面积，人口，人口密度：
+                      %small{style:'text-transform: full-width;'}  
+                    
+                  %li{style:'list-style: none;font-size:12px;'}
+                    %p{style:'margin-left: 10px;'}
+                      （根据Demographica Urban Areas 15th 
+                      %br
+                        Annual Edition:201904)    
+                .content
+                  %p.menu-label{style:'background-color: #e84135; color: white; font-size:13px;'}
+                    经济相关信息
+                    %ul.menu-list
+                    %li{style:'list-style: none;'}
+                      %p{style:'margin-left: 10px;'}
+                        平均年收入：
+                        %small{style:'text-transform: full-width; text-decoration: none;'} 
+                          - if @select_jp1.jpcity2.income.present?
+                            = "#{@select_jp1.jpcity2.income.to_s(:delimited)} 日元"
+                    %li{style:'list-style: none; margin-left: 10px;'}
+                      %p
+                        标准住宅地平均土地价格：
+                        %small{style:'text-transform: full-width; text-decoration: none;'}
+                          - if @select_jp1.jpcity2.r_price.present?
+                            = "#{@select_jp1.jpcity2.r_price.to_s(:delimited)} 日元"
+                    %li{style:'list-style: none;font-size:12px;'}
+                      %p{style:'margin-left: 10px;'}
+                        （平均年收入：根据”年収ガイド" 2019年1月阅览，
+                        %br 
+                          标准住宅地平均土地价格：根据国土交通省网站，2019年1月调查）                              
+      .column.is-one-third
+        %article.box.media
+          .media-content
+            .content
+              %p.menu-label{style:'background-color: #e84135; color: white;font-size:13px'} 
+                = "#{@select_jp1.simplified}#{@select_jp1.kind} 气候相关信息"
+                %ul.menu-list
+                %li{style:'list-style: none; font-size:16px;'}
+                  %p{style:'margin-left: 10px;font-size:13px;'}
+                    气候区分：
+                    %small{style:'text-transform: full-width; text-decoration: none;font-size:13px;'} 
+                      
+                  %p{style:'margin-left: 10px;font-size:13px;'}
+                    年平均气温/年降水量：
+                    %small{style:'text-transform: full-width; text-decoration: none;'} 
+                      = "#{@select_jp1.jpclimate.temp_ave}℃  #{@select_jp1.jpclimate.rain_total}mm"
+                  %p{style:'margin-left: 10px; font-size:13px;'}
+                    平均最高气温最高的月和温度：
+                    %small{style:'text-transform: full-width; text-decoration: none;'}
+                      = "#{@select_jp1.jpclimate.max_temp_month}月，#{@select_jp1.jpclimate.max_temp}℃"
+                  %p{style:'margin-left: 10px; font-size:13px;'}
+                    平均最低气温最低的月和温度：
+                    %small{style:'text-transform: full-width; text-decoration: none;'}
+                      = "#{@select_jp1.jpclimate.min_temp_month}月，#{@select_jp1.jpclimate.min_temp}℃"
+                  %p{style:'margin-left: 10px; font-size:13px;'}
+                    温暖指数：
+                    %small{style:'text-transform: full-width; text-decoration: none;'}
+                      = "#{@select_jp1.jpclimate.warmin}"
+              %p.menu-label{style:'background-color: #e84135; color: white; font-size: 13px;'} 
+                其他信息
+                %ul.menu-list
+                %li{style:'list-style: none;'}
+                  %p{style:'margin-left: 10px;'}
+                    简体字和中文拼音：
+                    %small{style:'font-size:13px; text-decoration: none;'} 
+                      = "#{@select_jp1.simplified}(#{@select_jp1.pinyin}) #{@select_jp1.kind}"           
+                  %p{style:'margin-left: 10px;'}
+                    ：
+                    %small{style:'text-transform: full-width; text-decoration: none;'} 
+                  
+                  %p{style:'margin-left: 10px;'}
+                    ：
+                    %small{style:'text-transform: full-width; text-decoration: none;'} 
+      .column.is-5
+        %article.box.media
+          .media-content
+            .content{style:'margin:0 auto'}
+              = render partial: "jpmap_temp/map",collection: [@select_jp1]
+  -if @selected_jpcities.count == 2
+    %main.columns.detail#jp2{style: 'margin-top: 10px; margin-bottom:19px;'} 
+      = render partial: "jpcity_temp/select_jp2",collection: [@select_jp2]
+  -elsif @selected_jpcities.count == 3 
+    %main.columns.detail#jp2{style: 'margin-top: 10px; margin-bottom:19px;'}
+      = render partial: "jpcity_temp/select_jp2",collection: [@select_jp2]
+    %main.columns.detail#jp3{style: 'margin-top: 10px; margin-bottom:19px;'}    
+      = render partial: "jpcity_temp/select_jp3",collection: [@select_jp3]
+  -elsif @selected_jpcities.count >= 4
+    %main.columns.detail#jp2{style: 'margin-top: 10px; margin-bottom:19px;'}
+      = render partial: "jpcity_temp/select_jp2",collection: [@select_jp2]
+    %main.columns.detail#jp3{style: 'margin-top: 10px; margin-bottom:19px;'} 
+      = render partial: "jpcity_temp/select_jp3",collection: [@select_jp3]
+    %main.columns.detail#jp4{style: 'margin-top: 10px; margin-bottom:19px;'} 
+      = render partial: "jpcity_temp/select_jp4",collection: [@select_jp4]
+%footer.footer
+  .container
+    .content.has-text-centered#test
+      2019 ©Masahito Kuwa

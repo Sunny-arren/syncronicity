@@ -1,0 +1,153 @@
+%main.columns{style: 'margin-top: 1px;'} 
+  .column.is-one-third
+    %article.box.media
+      .media-content
+        -if @selected_chcities.count == 1 
+          - @select_ch1 = Chcity.find(@ordered_chcities[0][0])
+        -elsif @selected_chcities.count == 2 
+          - @select_ch1 = Chcity.find(@ordered_chcities[0][0])
+          - @select_ch2 = Chcity.find(@ordered_chcities[1][0])
+        -elsif @selected_chcities.count == 3
+          - @select_ch1 = Chcity.find(@ordered_chcities[0][0])
+          - @select_ch2 = Chcity.find(@ordered_chcities[1][0])
+          - @select_ch3 = Chcity.find(@ordered_chcities[2][0]) 
+        -elsif @selected_chcities.count >= 4
+          - @select_ch1 = Chcity.find(@ordered_chcities[0][0])
+          - @select_ch2 = Chcity.find(@ordered_chcities[1][0])
+          - @select_ch3 = Chcity.find(@ordered_chcities[2][0]) 
+          - @select_ch4 = Chcity.find(@ordered_chcities[3][0])
+        .content
+          %p{style:'font-size: 16px; color: #69707a; line-height: 24px;'} 
+            緯度の近い中国の都市は、
+          %strong{style:'font-size: 19px; text-align: 25px;'}
+            - @province = Province.find(@select_ch4.province_id)
+            - if @select_ch4.id >= 29 && @select_ch4.id <= 32
+              = "#{@select_ch4.simplified} (#{@select_ch4.pinyin})市です。"
+            - else
+              = "#{@province.simplified}  #{@select_ch4.simplified} (#{@select_ch4.pinyin})市です。"
+          .level-item{style:'margin-top:7px'}
+            -if @selected_chcities.count == 2
+              %input.button.is-danger{:onclick => "return_first_ch()",:type => "button", :value => "都市1", :class => "s01",:style =>'margin-right: 5px;'}              
+              %input.button.is-danger{:type => "button", :value => "都市2", :class => "s02",:style =>'margin-right: 5px;'}
+            -elsif @selected_chcities.count == 3 
+              %input.button.is-danger{:onclick => "return_first_ch()",:type => "button", :value => "都市1", :class => "s01",:style =>'margin-right: 5px;'}              
+              %input.button.is-danger{:type => "button", :value => "都市2", :class => "s02",:style =>'margin-right: 5px;'}
+              %input.button.is-danger{:type => "button", :value => "都市3", :class => "s03",:style =>'margin-right: 5px;'}
+            -elsif @selected_chcities.count >= 4  
+              %input.button.is-danger{:onclick => "return_first_ch()",:type => "button", :value => "都市1", :class => "s01",:style =>'margin-right: 5px;'}              
+              %input.button.is-danger{:type => "button", :value => "都市2", :class => "s02",:style =>'margin-right: 5px;'}
+              %input.button.is-danger{:type => "button", :value => "都市3", :class => "s03",:style =>'margin-right: 5px;'}
+              %input.button.is-danger{:type => "button", :value => "都市4", :class => "s04",:style =>'margin-right: 5px;'}
+        %article.media
+          .media-content
+            .content
+              %p.menu-label{style:'background-color: #e84135; color: white; font-size:13px;'}
+                = "#{@select_ch4.simplified}市の基本情報"
+              %ul.menu-list
+              %li{style:'list-style: none;'}
+                %p{style:'margin-left: 10px;'}
+                  緯度：
+                  %small{style:'text-transform: full-width; text-decoration: none;'}
+                    = "N#{@select_ch4.chcity2.lati}"
+                  %br 
+                  %small{style:'text-transform: full-width; text-decoration: none;'}
+                    = "（経度：E#{@select_ch4.chcity2.longi})"
+              %li{style:'list-style: none;'}
+                %p{style:'margin-left: 10px;'}
+                  人口：
+                  %small{style:'text-transform: full-width; text-decoration: none;'}
+                    - if @select_ch4.chcity2.popul.present?
+                      = "#{@select_ch4.chcity2.popul.to_s(:delimited)}万人" 
+              %li{style:'list-style: none;'}
+                %p{style:'margin-left: 10px;'}
+                  面積：
+                  %small{style:'text-transform: full-width; text-decoration: none;'}
+                    - if @select_ch4.chcity2.size.present?
+                      = "#{@select_ch4.chcity2.size.to_s(:delimited)} ㎢"
+              %p.menu-label{style:'background-color: #e84135; color: white; font-size:13px;'}
+                所属する都市圈の情報  
+              %ul.menu-list
+              %li{style:'list-style: none;'}
+                %p{style:'margin-left: 10px;'}
+                  都市圏名：
+                  %small{style:'text-transform: full-width;'}
+              
+              %li{style:'list-style: none;'}
+                %p{style:'margin-left: 10px;'}
+                  面積、人口、人口密度：
+                  %small{style:'text-transform: full-width;'}  
+                
+              %li{style:'list-style: none;font-size:12px;'}
+                %p{style:'margin-left: 10px;'}
+                  （出典：Demographica Urban Areas 15th 
+                  %br
+                    Annual Edition:201904) 
+            .content
+              %p.menu-label{style:'background-color: #e84135; color: white; font-size:13px;'}
+                経済情報
+                %ul.menu-list
+                %li{style:'list-style: none;'}
+                  %p{style:'margin-left: 10px;'}
+                    給与取得者の年平均所得：
+                    %small{style:'text-transform: full-width; text-decoration: none;'} 
+                      - if @select_ch4.chcity2.income.present?
+                        = "#{@select_ch4.chcity2.income.to_s(:delimited)} 元"
+                %li{style:'list-style: none; margin-left: 10px;'}
+                  %p
+                    マンション平均売買価格：
+                    %small{style:'text-transform: full-width; text-decoration: none;'}
+                      - if @select_ch4.chcity2.r_price.present?
+                        = "#{@select_ch4.chcity2.r_price.to_s(:delimited)} 元"
+                %li{style:'list-style: none;'}
+                  %p{style:'margin-left: 10px; font-size:12px;'}
+                    （出典：中国国家統計局ウェブサイト，2020年1月1日閲覧時）
+  .column.is-one-third
+    %article.box.media
+      .media-content
+        .content
+          %p.menu-label{style:'background-color: #e84135; color: white;font-size:13px'} 
+            = "#{@select_ch4.simplified}市の気候情報"
+            %ul.menu-list
+            %li{style:'list-style: none; font-size:16px;'}
+              %p{style:'margin-left: 10px;font-size:13px;'}
+                気候区分：
+                %small{style:'text-transform: full-width; text-decoration: none;font-size:13px;'} 
+                  = "#{@select_ch4.chclimate.cldiv_id}"
+              %p{style:'margin-left: 10px;font-size:13px;'}
+                年間平均気温：
+                %small{style:'text-transform: full-width; text-decoration: none;'} 
+                  = "#{@select_ch4.chclimate.temp_ave} ℃ "
+              %p{style:'margin-left: 10px; font-size:13px;'}
+                最高気温平均の最も高い月：
+                %small{style:'text-transform: full-width; text-decoration: none;'}
+                  = "#{@select_ch4.chclimate.max_temp_month}月 (#{@select_ch4.chclimate.max_temp}℃)"
+              %p{style:'margin-left: 10px; font-size:13px;'}
+                最低気温平均の最も低い月：
+                %small{style:'text-transform: full-width; text-decoration: none;'}
+                  = "#{@select_ch4.chclimate.min_temp_month}月 (#{@select_ch4.chclimate.min_temp}℃)"
+              %p{style:'margin-left: 10px; font-size:13px;'}
+                暖かさの指数:
+                %small{style:'text-transform: full-width; text-decoration: none;'}
+                  = "#{@select_ch4.chclimate.warmin}"
+              %p{style:'margin-left: 10px; font-size:12px;'}
+                （出典：Wikipedia、2020年1月1日閲覧時の情報）                
+          %p.menu-label{style:'background-color: #e84135; color: white; font-size: 13px;'} 
+            その他の情報
+            %ul.menu-list
+            %li{style:'list-style: none;'}
+              %p{style:'margin-left: 10px;'}
+                日本の漢字名と読み：
+                %small{style:'text-transform: full-width; text-decoration: none;font-size: 13px'} 
+                  = "#{@select_ch4.jpkanji}(#{@select_ch4.hira})#{@select_ch4.kind}" 
+              %p{style:'margin-left: 10px;'}
+                ：
+                %small{style:'text-transform: full-width; text-decoration: none;'} 
+              
+              %p{style:'margin-left: 10px;'}
+                ：
+                %small{style:'text-transform: full-width; text-decoration: none;'} 
+  .column.is-5.map#ch4_m
+    %article.box.media
+      .media-content
+        .content{style:'margin:0 auto'}
+          = render partial: "chmap_temp/map_4",collection: [@select_ch4]

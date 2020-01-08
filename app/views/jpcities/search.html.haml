@@ -11,16 +11,18 @@
           .jp-search-field__middle__stage__latitude__form-box__form
             = form_tag("jpcities/search_result", method: :get) do
               %input.search-form-lat{name:"keyword", placeholder: "日本の都市名", type: "string", class:'clearfix_lat',style:'padding-left:10px;'}
-              %label.search-icon.submit-stage
-                = fa_icon 'search fa-lg',class:'submit'
-              #jpcity-search-result-latitude
+                %label.search-icon.submit-stage_lat
+                  = fa_icon 'search fa-lg' ,class: "submit_lat"
+            #jpcity-search-result-latitude
         %p.jp-search-field__middle__stage__climate 
           ◆◆◆◆◆◆類似気候サーチ◆◆◆◆◆◆
         .jp-search-field__middle__stage__climate__form-box
           .jp-search-field__middle__stage__climate__form-box__form
-            = form_tag("jpcities/search_result", method: :get) do
-              %input.search-form-cl{name:"keyword", placeholder: "日本の都市名", type: "text", class:'clearfix_cli',style:'padding-left:10px;'}
-              %label.search-icon.submit-stage 
-                = fa_icon 'search fa-lg',class:'submit'
+            = form_tag("jpclimates/search_result", method: :get) do
+              %input.search-form-cli{name:"keyword", placeholder: "日本の都市名", type: "text", class:'clearfix_cli',style:'padding-left:10px;'}
+                %label.search-icon.submit-stage_cli
+                  = fa_icon 'search fa-lg',class: "submit_cli"
               #jpcity-search-result-climate
+        .jp-search-field__middle__stage__change-button
+          %input.button.change_country{:onclick => "change_country_jp()",:type => "button", :value => "Change Country"} 
     .jp-search-field__bottom

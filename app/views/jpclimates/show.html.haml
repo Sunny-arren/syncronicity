@@ -1,0 +1,283 @@
+.hero.is-success.is-bold
+  .hero-body{style:'padding-top: 35px; padding-bottom: 35px;'}    
+    .container
+      %h1.title Climate Similar Cities in China
+      %h2.subtitle > from Japanese city
+      .level-right
+        .level-item       
+        %input.button.is-primary.redirect_search{:onclick => "urlReplace()", :type => "button", :value => "searchへ戻る"}        
+        %input.button.is-warning.change_country{:onclick => "change_country_jp()",:style => 'margin-left: 10px;',:type => "button", :value => "Change Country"} 
+%main.columns
+  .submenu.column.is-3
+    %aside.box{style: 'margin-top: 11px;'} 
+      = "あなたの選んだ日本の都市は、"
+      %br 
+      %strong{style: 'font-weight: bold;'}
+        - if @jpcity.jpkanji.include?("東京")
+          = "#{@jpcity.jpkanji} #{@jpcity.kind}です。"
+        - else 
+          = "#{@jpcity.pref} #{@jpcity.jpkanji} #{@jpcity.kind}です。"
+    %aside.box.menu{style:'font-size:13px; line-height:22px'}
+      %p.menu-label{style:'background-color: #21628072; color: white; font-size:13px;'}
+        = "#{@jpcity.jpkanji} #{@jpcity.kind}の基本情報"  
+      %ul.menu-list
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            緯度：
+            %small{style:'text-transform: full-width;'}
+              = "N#{@jpcity.jpcity2.lati}"
+            %br 
+            %small{style:'text-transform: full-width;'}
+              = "（経度：E#{@jpcity.jpcity2.longi}）"
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            人口：
+            %small{style:'text-transform: full-width;'} 
+              - if @jpcity.jpcity2.popul.present?
+                = "#{@jpcity.jpcity2.popul.to_s(:delimited)}万人"
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            面積：
+            %small{style:'text-transform: full-width;'} 
+              - if @jpcity.jpcity2.size.present?
+                = "#{@jpcity.jpcity2.size.to_s(:delimited)}㎢"
+      %p.menu-label{style:'background-color: #21628072; color: white; font-size:13px;'}
+        所属する都市圈の情報  
+      %ul.menu-list
+      %li{style:'list-style: none;'}
+        %p{style:'margin-left: 10px;'}
+          都市圏名：
+          %small{style:'text-transform: full-width;'}
+      
+      %li{style:'list-style: none;'}
+        %p{style:'margin-left: 10px;'}
+          面積、人口、人口密度：
+          %small{style:'text-transform: full-width;'}  
+        
+      %li{style:'list-style: none;font-size:12px;'}
+        %p{style:'margin-left: 10px;'}
+          （出典：Demographica Urban Areas 15th 
+          %br
+            Annual Edition:201904) 
+      %p.menu-label{style:'background-color: #21628072; color: white; font-size:13px;'}
+        経済情報
+      %ul.menu-list        
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            年間平均所得：
+            %small{style:'text-transform: full-width;'} 
+              - if @jpcity.jpcity2.income.present?
+                = "#{@jpcity.jpcity2.income.to_s(:delimited)}円"
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            標準住宅地公示地価平均:
+            %small{style:'text-transform: full-width;'} 
+              - if @jpcity.jpcity2.r_price.present?
+                = "#{@jpcity.jpcity2.r_price.to_s(:delimited)}円"
+        %li{style:'list-style: none;font-size:12px;'}
+          %p{style:'margin-left: 10px;'}
+            （出典：
+            %br
+              年間平均所得：「年収ガイド」2020年1月閲覧時
+            %span  
+              標準住宅地公示地価平均：国土交通省ウェブサイト，2019年1月1日公示）                              
+      %p.menu-label{style:'background-color: #21628072; color: white; font-size:13px;'}
+        気候情報              
+      %ul.menu-list  
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            気候区分：
+            %small{style:'text-transform: full-width; text-decoration: none;font-size:13px;'} 
+              = "#{@jpcity.jpclimate.cldiv_id}"
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            年間平均気温/年間降水量：
+            %small{style:'text-transform: full-width;'} 
+              - if @jpcity.jpclimate.temp_ave = ""
+                = "#{@jpcity.jpclimate.middle_temp}℃、#{@jpcity.jpclimate.rain_total}mm"
+              -else
+                = "#{@jpcity.jpclimate.temp_ave}℃、#{@jpcity.jpclimate.rain_total}mm"
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            暖かさの指数:
+            %small{style:'text-transform: full-width;'} 
+              = "#{@jpcity.jpclimate.warmin}"
+        %li{style:'list-style: none;'}
+          %p{style:'margin-left: 10px;'}
+            （出典：Wikipedia、2020年1月1日閲覧時）  
+  %main.columns.spec#ch1{style: 'margin-top: 10px; margin-bottom:19px;'} 
+    %main.columns{style: 'margin-top: 1px;'} 
+      .column.is-one-third
+        %article.box.media
+          .media-content
+            -if @selected_chcities.count == 1 
+              - @select_ch1 = Chcity.find(@ordered_chcities[0][0])
+            -elsif @selected_chcities.count == 2 
+              - @select_ch1 = Chcity.find(@ordered_chcities[0][0])
+              - @select_ch2 = Chcity.find(@ordered_chcities[1][0])
+            -elsif @selected_chcities.count == 3
+              - @select_ch1 = Chcity.find(@ordered_chcities[0][0])
+              - @select_ch2 = Chcity.find(@ordered_chcities[1][0])
+              - @select_ch3 = Chcity.find(@ordered_chcities[2][0]) 
+            -elsif @selected_chcities.count >= 4
+              - @select_ch1 = Chcity.find(@ordered_chcities[0][0])
+              - @select_ch2 = Chcity.find(@ordered_chcities[1][0])
+              - @select_ch3 = Chcity.find(@ordered_chcities[2][0]) 
+              - @select_ch4 = Chcity.find(@ordered_chcities[3][0])
+            .content
+              %p{style:'font-size: 16px; color: #69707a; line-height: 24px;'} 
+                緯度の近い中国の都市は、
+              %strong{style:'font-size: 19px; text-align: 25px;'}
+                - @province = Province.find(@select_ch1.province_id)
+                - if @select_ch1.id >= 29 && @select_ch1.id <= 32
+                  = "#{@select_ch1.simplified} (#{@select_ch1.pinyin})市です。"
+                - else
+                  = "#{@province.simplified}  #{@select_ch1.simplified} (#{@select_ch1.pinyin})市です。"
+              .level-item{style:'margin-top:7px'}
+                -if @selected_chcities.count == 2
+                  %input.button.is-danger{:onclick => "return_first_ch()",:type => "button", :value => "都市1", :class => "s01",:style =>'margin-right: 5px;'}              
+                  %input.button.is-danger{:type => "button", :value => "都市2", :class => "s02",:style =>'margin-right: 5px;'}
+                -elsif @selected_chcities.count == 3 
+                  %input.button.is-danger{:onclick => "return_first_ch()",:type => "button", :value => "都市1", :class => "s01",:style =>'margin-right: 5px;'}              
+                  %input.button.is-danger{:type => "button", :value => "都市2", :class => "s02",:style =>'margin-right: 5px;'}
+                  %input.button.is-danger{:type => "button", :value => "都市3", :class => "s03",:style =>'margin-right: 5px;'}
+                -elsif @selected_chcities.count >= 4  
+                  %input.button.is-danger{:onclick => "return_first_ch()",:type => "button", :value => "都市1", :class => "s01",:style =>'margin-right: 5px;'}              
+                  %input.button.is-danger{:type => "button", :value => "都市2", :class => "s02",:style =>'margin-right: 5px;'}
+                  %input.button.is-danger{:type => "button", :value => "都市3", :class => "s03",:style =>'margin-right: 5px;'}
+                  %input.button.is-danger{:type => "button", :value => "都市4", :class => "s04",:style =>'margin-right: 5px;'}
+            %article.media
+              .media-content
+                .content
+                  %p.menu-label{style:'background-color: #e84135; color: white; font-size:13px;'}
+                    = "#{@select_ch1.simplified}市の基本情報"
+                  %ul.menu-list
+                  %li{style:'list-style: none;'}
+                    %p{style:'margin-left: 10px;'}
+                      緯度：
+                      %small{style:'text-transform: full-width; text-decoration: none;'}
+                        = "N#{@select_ch1.chcity2.lati}"
+                      %br 
+                      %small{style:'text-transform: full-width; text-decoration: none;'}
+                        = "（経度：E#{@select_ch1.chcity2.longi})"
+                  %li{style:'list-style: none;'}
+                    %p{style:'margin-left: 10px;'}
+                      人口：
+                      %small{style:'text-transform: full-width; text-decoration: none;'}
+                        - if @select_ch1.chcity2.popul.present?
+                          = "#{@select_ch1.chcity2.popul.to_s(:delimited)}万人" 
+                  %li{style:'list-style: none;'}
+                    %p{style:'margin-left: 10px;'}
+                      面積：
+                      %small{style:'text-transform: full-width; text-decoration: none;'}
+                        - if @select_ch1.chcity2.size.present?
+                          = "#{@select_ch1.chcity2.size.to_s(:delimited)} ㎢"
+                  %p.menu-label{style:'background-color: #e84135; color: white; font-size:13px;'}
+                    所属する都市圈の情報  
+                  %ul.menu-list
+                  %li{style:'list-style: none;'}
+                    %p{style:'margin-left: 10px;'}
+                      都市圏名：
+                      %small{style:'text-transform: full-width;'}
+                  
+                  %li{style:'list-style: none;'}
+                    %p{style:'margin-left: 10px;'}
+                      面積、人口、人口密度：
+                      %small{style:'text-transform: full-width;'}  
+                    
+                  %li{style:'list-style: none;font-size:12px;'}
+                    %p{style:'margin-left: 10px;'}
+                      （出典：Demographica Urban Areas 15th 
+                      %br
+                        Annual Edition:201904) 
+                .content
+                  %p.menu-label{style:'background-color: #e84135; color: white; font-size:13px;'}
+                    経済情報
+                    %ul.menu-list
+                    %li{style:'list-style: none;'}
+                      %p{style:'margin-left: 10px;'}
+                        給与取得者の年平均所得：
+                        %small{style:'text-transform: full-width; text-decoration: none;'} 
+                          - if @select_ch1.chcity2.income.present?
+                            = "#{@select_ch1.chcity2.income.to_s(:delimited)} 元"
+                    %li{style:'list-style: none; margin-left: 10px;'}
+                      %p
+                        マンション平均売買価格：
+                        %small{style:'text-transform: full-width; text-decoration: none;'}
+                          - if @select_ch1.chcity2.r_price.present?
+                            = "#{@select_ch1.chcity2.r_price.to_s(:delimited)} 元"
+                    %li{style:'list-style: none;'}
+                      %p{style:'margin-left: 10px; font-size:12px;'}
+                        （出典：中国国家統計局ウェブサイト，2020年1月1日閲覧時）
+      .column.is-one-third
+        %article.box.media
+          .media-content
+            .content
+              %p.menu-label{style:'background-color: #e84135; color: white;font-size:13px'} 
+                = "#{@select_ch1.simplified}市の気候情報"
+                %ul.menu-list
+                %li{style:'list-style: none; font-size:16px;'}
+                  %p{style:'margin-left: 10px;font-size:13px;'}
+                    気候区分：
+                    %small{style:'text-transform: full-width; text-decoration: none;font-size:13px;'} 
+                      = "#{@select_ch1.chclimate.cldiv_id}"
+                  %p{style:'margin-left: 10px;font-size:13px;'}
+                    年間平均気温：
+                    %small{style:'text-transform: full-width; text-decoration: none;'} 
+                      - if @select_ch1.chclimate.temp_ave = ""  
+                        = "#{@select_ch1.chclimate.middle_temp} ℃ " 
+                      - else
+                        = "#{@select_ch1.chclimate.temp_ave} ℃ "
+                  %p{style:'margin-left: 10px; font-size:13px;'}
+                    最高気温平均の最も高い月：
+                    %small{style:'text-transform: full-width; text-decoration: none;'}
+                      = "#{@select_ch1.chclimate.max_temp_month}月 (#{@select_ch1.chclimate.max_temp}℃)"
+                  %p{style:'margin-left: 10px; font-size:13px;'}
+                    最低気温平均の最も低い月：
+                    %small{style:'text-transform: full-width; text-decoration: none;'}
+                      = "#{@select_ch1.chclimate.min_temp_month}月 (#{@select_ch1.chclimate.min_temp}℃)"
+                  %p{style:'margin-left: 10px; font-size:13px;'}
+                    暖かさの指数:
+                    %small{style:'text-transform: full-width; text-decoration: none;'}
+                      = "#{@select_ch1.chclimate.warmin}"
+                  %p{style:'margin-left: 10px; font-size:12px;'}
+                    （出典：Wikipedia、2020年1月1日閲覧時の情報）                
+              %p.menu-label{style:'background-color: #e84135; color: white; font-size: 13px;'} 
+                その他の情報
+                %ul.menu-list
+                %li{style:'list-style: none;'}
+                  %p{style:'margin-left: 10px;'}
+                    日本の漢字名と読み：
+                    %small{style:'text-transform: full-width; text-decoration: none;font-size: 13px'} 
+                      = "#{@select_ch1.jpkanji}(#{@select_ch1.hira})#{@select_ch1.kind}" 
+                  %p{style:'margin-left: 10px;'}
+                    ：
+                    %small{style:'text-transform: full-width; text-decoration: none;'} 
+                  
+                  %p{style:'margin-left: 10px;'}
+                    ：
+                    %small{style:'text-transform: full-width; text-decoration: none;'} 
+      .column.is-5.map#ch1_m
+        %article.box.media
+          .media-content
+            .content{style:'margin:0 auto'}
+              = render partial: "chmap_temp/map",collection: [@select_ch1]
+  -if @selected_chcities.count == 2   
+    %main.columns.spec#ch2{style: 'margin-top: 10px; margin-bottom:19px;'} 
+      = render partial: "chcity_temp/select_ch2",collection: [@select_ch2]
+  -elsif @selected_chcities.count == 3  
+    %main.columns.spec#ch2{style: 'margin-top: 10px; margin-bottom:19px;'} 
+      = render partial: "chcity_temp/select_ch2",collection: [@select_ch2]
+    %main.columns.spec#ch3{style: 'margin-top: 10px; margin-bottom:19px;'} 
+      = render partial: "chcity_temp/select_ch3",collection: [@select_ch3]
+  -elsif @selected_chcities.count >= 4
+    %main.columns.spec#ch2{style: 'margin-top: 10px; margin-bottom:19px;'} 
+      = render partial: "chcity_temp/select_ch2",collection: [@select_ch2]
+    %main.columns.spec#ch3{style: 'margin-top: 10px; margin-bottom:19px;'} 
+      = render partial: "chcity_temp/select_ch3",collection: [@select_ch3]
+    %main.columns.spec#ch4{style: 'margin-top: 10px; margin-bottom:19px;'} 
+      = render partial: "chcity_temp/select_ch4",collection: [@select_ch4]
+%footer.footer
+  .container
+    .content.has-text-centered#test
+      2019 ©Masahito Kuwa
