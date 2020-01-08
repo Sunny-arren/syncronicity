@@ -69,3 +69,7 @@ gem 'haml-rails'
 gem 'font-awesome-rails'
 gem 'turbolinks', '~> 5'
 gem 'gon'
+
+group :production do
+  gem 'unicorn', '5.4.1'
+end
