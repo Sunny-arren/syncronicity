@@ -1,24 +1,86 @@
 # README
+#　概要
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# DB設計
+## jpcitiesテーブル
+|Column|Type|Options|
+|------|----|-------|
+|pref|string|null: false|
+|jpkanji|string|null: false|
+|simplified|string|null: false|
+|hira|string|null: false|
+|alphabet|string|null: false|
+|pinyin|string|
+|latitude|float|
+|longitude|float|
+|kind|string| 
 
-Things you may want to cover:
+### Association
+- has_many :messages
+- has_many :groups through groups_users
 
-* Ruby version
+## jpcity2sテーブル
+|Column|Type|Options|
+|------|----|-------|
+|lati|float|null: false|
+|longi|float|null: false|
+|pref|string|
+|income|integer|
+|r_price|float|
+|popul|float|
+|size|float|
+|dense|float|
+|jpcity_id|integer|
+|latitude_id|integer|
+|jpkanji|string|
 
-* System dependencies
+### Association
 
-* Configuration
 
-* Database creation
+## chcitiesテーブル
+|Column|Type|Options|
+|------|----|-------|
+|hira|string|null: false|
+|simplified|string|null: false|
+|pinyin|string|null: false|
+|latitude|float|
+|longitude|float|
+|kind|string| 
+|province_id|integer|foreign_ket: true|
 
-* Database initialization
+### Association
+- belongs_to :user
 
-* How to run the test suite
+## chcity2sテーブル
+|Column|Type|Options|
+|------|----|-------|
+|lati|float|null: false|
+|longi|float|null: false|
+|prov|string|
+|income|integer|
+|r_price|float|
+|popul|float|
+|size|float|
+|dense|float|
+|chcity_id|integer|
+|latitude_id|integer|
+|jpkanji|string|
 
-* Services (job queues, cache servers, search engines, etc.)
+### Association
 
-* Deployment instructions
+## groupsテーブル
+|Column|Type|Options|
+|------|----|-------|
+|text|text|null: false|
+### Association
+- has_many :users through:  :groups_users
 
-* ...
+## groups_usersテーブル
+|Column|Type|Options|
+|------|----|-------|
+|groups_id|integer|null: false, foreign_key: true|
+|users_id|integer|null: false, foreign_key: true|
+- belongs_to user
+- belongs_to group
+※グループ毎にチャットする仕組みのため、ユーザーとグループとの間に  
+多対多の関係が存在する。このため上記のように中間テーブルを作成した。  
