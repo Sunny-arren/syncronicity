@@ -9,7 +9,6 @@ $(function(){
   $(function(){
     $(".clearfix_lat_ch").on("keyup", function(){
     var input = $(".clearfix_lat_ch").val();
-    var preWord;
     if (input !== ""){
     $.ajax({
       type: 'get',
@@ -28,7 +27,6 @@ $(function(){
         $(search_list).hide();
         $(search_list).empty(); 
       }   
-      // preWord = input;
     })
   }    
   })
@@ -47,7 +45,6 @@ $(function(){
   $(function(){
     $(".clearfix_cli_ch").on("keyup", function(){
     var input = $(".clearfix_cli_ch").val();
-    var preWord;
     if (input !== preWord){
     $.ajax({
       type: 'get',
@@ -66,7 +63,6 @@ $(function(){
         $(search_list).hide();
         $(search_list).empty(); 
       }   
-      preWord = input;
     })
   }    
   })

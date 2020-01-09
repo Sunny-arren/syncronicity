@@ -65,9 +65,15 @@
         %li{style:'list-style: none;'}
           %p{style:'margin-left: 10px;'}
             年間平均所得：
+            %small{style:'text-transform: full-width;'}  
+              - if @jpcity.jpcity2.income.present?
+                = "#{@jpcity.jpcity2.income.to_s(:delimited)}円"
         %li{style:'list-style: none;'}
           %p{style:'margin-left: 10px;'}
             標準住宅地公示地価平均:
+            %small{style:'text-transform: full-width;'} 
+              - if @jpcity.jpcity2.r_price.present?
+                = "#{@jpcity.jpcity2.r_price.to_s(:delimited)}円"
         %li{style:'list-style: none;font-size:12px;'}
           %p{style:'margin-left: 10px;'}
             （出典：
