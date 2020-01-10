@@ -15,7 +15,7 @@
       %strong{style: 'font-weight: bold;'}
         - @province = Province.find(@chcity.province_id)
         - if @chcity.id >= 29 && @chcity.id <= 32
-          = "#{@chcity.simplified} (#{@chcity.kind})"
+          = "#{@chcity.simplified} #{@chcity.kind}"
         - else
           = "#{@province.simplified}  #{@chcity.simplified} #{@chcity.kind}"
     %aside.box.menu{style:'font-size:13px; line-height:22px'}
@@ -221,8 +221,11 @@
                       
                   %p{style:'margin-left: 10px;font-size:13px;'}
                     年平均气温/年降水量：
-                    %small{style:'text-transform: full-width; text-decoration: none;'} 
-                      = "#{@select_jp1.jpclimate.temp_ave}℃  #{@select_jp1.jpclimate.rain_total}mm"
+                    %small{style:'text-transform: full-width; text-decoration: none;'}
+                      - if @select_jp1.jpclimate.temp_ave = ""
+                        = "#{@select_jp1.jpclimate.middle_temp}℃、#{@select_jp1.jpclimate.rain_total}mm"
+                      -else
+                        = "#{@select_jp1.jpclimate.temp_ave}℃,#{@select_jp1.jpclimate.rain_total}mm"   
                   %p{style:'margin-left: 10px; font-size:13px;'}
                     平均最高气温最高的月和温度：
                     %small{style:'text-transform: full-width; text-decoration: none;'}

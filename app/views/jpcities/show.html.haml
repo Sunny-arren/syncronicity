@@ -213,9 +213,12 @@
                     %small{style:'text-transform: full-width; text-decoration: none;font-size:13px;'} 
                       = "#{@select_ch1.chclimate.cldiv_id}"
                   %p{style:'margin-left: 10px;font-size:13px;'}
-                    年間平均気温：
-                    %small{style:'text-transform: full-width; text-decoration: none;'} 
-                      = "#{@select_ch1.chclimate.temp_ave} ℃ "
+                    年間平均気温/年降水量：
+                    %small{style:'text-transform: full-width; text-decoration: none;'}
+                      - if @select_ch1.chclimate.temp_ave = ""
+                        = "#{@select_ch1.chclimate.middle_temp}℃、#{@select_ch1.chclimate.rain_total}mm"
+                      -else
+                        = "#{@select_ch1.chclimate.temp_ave}℃,#{@select_ch1.chclimate.rain_total}mm"
                   %p{style:'margin-left: 10px; font-size:13px;'}
                     最高気温平均の最も高い月：
                     %small{style:'text-transform: full-width; text-decoration: none;'}

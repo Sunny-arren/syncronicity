@@ -114,7 +114,10 @@
               %p{style:'margin-left: 10px;font-size:13px;'}
                 年平均气温/年降水量：
                 %small{style:'text-transform: full-width; text-decoration: none;'} 
-                  = "#{@select_jp3.jpclimate.temp_ave}℃  #{@select_jp3.jpclimate.rain_total}mm"
+                  - if @select_jp3.jpclimate.temp_ave = ""
+                    = "#{@select_jp3.jpclimate.middle_temp}℃、#{@select_jp3.jpclimate.rain_total}mm"
+                  -else
+                    = "#{@select_jp3.jpclimate.temp_ave}℃,#{@select_jp3.jpclimate.rain_total}mm"
               %p{style:'margin-left: 10px; font-size:13px;'}
                 平均最高气温最高的月和温度
                 %small{style:'text-transform: full-width; text-decoration: none;'}
