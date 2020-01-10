@@ -45,7 +45,7 @@ $(function(){
   $(function(){
     $(".clearfix_cli_ch").on("keyup", function(){
     var input = $(".clearfix_cli_ch").val();
-    if (input !== preWord){
+    if (input !== ""){
     $.ajax({
       type: 'get',
       url: '/chcities/search',
