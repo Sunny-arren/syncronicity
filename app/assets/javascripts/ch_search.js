@@ -9,7 +9,6 @@ $(function(){
   $(function(){
     $(".clearfix_lat_ch").on("keyup", function(){
     var input = $(".clearfix_lat_ch").val();
-    if (input !== ""){
     $.ajax({
       type: 'get',
       url: '/chcities/search',
@@ -27,8 +26,7 @@ $(function(){
         $(search_list).hide();
         $(search_list).empty(); 
       }   
-    })
-  }    
+    })   
   })
 })
 })
@@ -45,7 +43,6 @@ $(function(){
   $(function(){
     $(".clearfix_cli_ch").on("keyup", function(){
     var input = $(".clearfix_cli_ch").val();
-    if (input !== ""){
     $.ajax({
       type: 'get',
       url: '/chcities/search',
@@ -63,8 +60,7 @@ $(function(){
         $(search_list).hide();
         $(search_list).empty(); 
       }   
-    })
-  }    
+    })  
   })
  })
 }) 

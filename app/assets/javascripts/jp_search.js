@@ -9,7 +9,6 @@ $(function(){
   $(function(){
     $(".clearfix_lat").on("keyup", function(){
     var input = $(".clearfix_lat").val();
-    if (input != ""){
     $.ajax({
       type: 'get',
       url: '/jpcities/search',
@@ -28,11 +27,9 @@ $(function(){
         $(search_list).hide();
       }   
     })
-  }    
   })
+ })
 })
-})
-
 $(function(){
   var search_list = $("#jpcity-search-result-climate");
   function AppendJpcitiesNameClimate(jpcity){
@@ -45,7 +42,6 @@ $(function(){
   $(function(){
     $(".clearfix_cli").on("keyup", function(){
     var input = $(".clearfix_cli").val();
-    if (input != ""){
     $.ajax({
       type: 'get',
       url: '/jpcities/search',
@@ -62,12 +58,11 @@ $(function(){
       } else {
         $(search_list).empty();
         $(search_list).hide(); 
-      }   
-    })
-  }    
+       }   
+     })
+  })    
   })
  })
-}) 
 
 $(document).on("click", ".jpcity-name-stage-lat", function () {
     var jpcityId = $(this).data("jpcity__id");
@@ -110,4 +105,3 @@ $(document).on("click", ".submit_cli", function () {
   alert('都市名を先に入力お願いします！')
   }
 })
-
