@@ -93,7 +93,10 @@
           %p{style:'margin-left: 10px;'}
             年平均気温/年降水量：
             %small{style:'text-transform: full-width;'}
-              = "#{@chcity.chclimate.temp_ave}℃/#{@chcity.chclimate.rain_total}mm"
+              - if @chcity.chclimate.temp_ave = ""
+                = "#{@chcity.chclimate.middle_temp}℃、#{@chcity.chclimate.rain_total}mm"
+              -else
+                = "#{@chcity.chclimate.temp_ave}℃,#{@chcity.chclimate.rain_total}mm"         
         %li{style:'list-style: none;'}
           %p{style:'margin-left: 10px;'}
             温暖指数：
