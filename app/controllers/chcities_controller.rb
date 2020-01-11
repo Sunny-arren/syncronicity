@@ -17,16 +17,20 @@ class ChcitiesController < ApplicationController
   end
 
   def search_result
-    @chcity = Chcity.find_by(simplified: params[:keyword])
-    @jpcities = Jpcity2.where(latitude_id: @chcity.chcity2.latitude_id-5..@chcity.chcity2.latitude_id+5)
-    @selected_jpcities = []
-    @jpcities.each do |data|
-      difference_lati = (data.lati - @chcity.chcity2.lati).abs
-      @selected_jpcities << [data.jpcity_id, difference_lati]
+    if Chcity.find_by(simplified: params[:keyword]).nil?
+      redirect_to controller: :chcities, action: :search
+    else 
+      @chcity = Chcity.find_by(simplified: params[:keyword])
+      @jpcities = Jpcity2.where(latitude_id: @chcity.chcity2.latitude_id-5..@chcity.chcity2.latitude_id+5)
+      @selected_jpcities = []
+        @jpcities.each do |data|
+        difference_lati = (data.lati - @chcity.chcity2.lati).abs
+        @selected_jpcities << [data.jpcity_id, difference_lati]
+        end
+     @ordered_jpcities = []
+     @ordered_jpcities = @selected_jpcities.sort_by!{|a,b|b}.map{|k,v| k}.map.with_index{|v,i|[v,i]}
+     gon.ordered_jpcities = @ordered_jpcities
     end
-    @ordered_jpcities = []
-    @ordered_jpcities = @selected_jpcities.sort_by!{|a,b|b}.map{|k,v| k}.map.with_index{|v,i|[v,i]}
-    gon.ordered_jpcities = @ordered_jpcities
   end
    
   def show 

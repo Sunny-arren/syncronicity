@@ -22,16 +22,21 @@ class JpcitiesController < ApplicationController
   end
 
   def search_result
-    @jpcity = Jpcity.find_by(jpkanji: params[:keyword])
-    @chcities = Chcity2.where(latitude_id: @jpcity.jpcity2.latitude_id-5..@jpcity.jpcity2.latitude_id+5)
-    @selected_chcities = []
-    @chcities.each do |data|
+    if Jpcity.find_by(jpkanji: params[:keyword]).nil?
+     redirect_to controller: :jpcities, action: :search
+     flash.now[:notice] = "該当する都市のレコードがありません"
+    else 
+     @jpcity = Jpcity.find_by(jpkanji: params[:keyword])
+     @chcities = Chcity2.where(latitude_id: @jpcity.jpcity2.latitude_id-5..@jpcity.jpcity2.latitude_id+5)
+     @selected_chcities = []
+      @chcities.each do |data|
       difference_lati = (data.lati - @jpcity.jpcity2.lati).abs
       @selected_chcities << [data.chcity_id, difference_lati]
+      end
+     @ordered_chcities = []
+     @ordered_chcities = @selected_chcities.sort_by!{|a,b|b}.map{|k,v| k}.map.with_index{|v,i|[v,i]}
+     gon.ordered_chcities = @ordered_chcities 
     end
-    @ordered_chcities = []
-    @ordered_chcities = @selected_chcities.sort_by!{|a,b|b}.map{|k,v| k}.map.with_index{|v,i|[v,i]}
-    gon.ordered_chcities = @ordered_chcities
   end
 
   def show 
