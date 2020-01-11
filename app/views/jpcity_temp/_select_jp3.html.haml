@@ -20,7 +20,7 @@
           %p{style:'font-size: 16px; color: #69707a; line-height: 24px;'} 
             类似纬度的日本城市是：
           %strong{style:'font-size: 19px; text-align: 25px;'}
-            = "#{@select_jp3.pref}  #{@select_jp3.jpkanji} (#{@select_jp3.alphabet}) #{@select_jp2.kind}"
+            = "#{@select_jp3.pref}  #{@select_jp3.jpkanji} (#{@select_jp3.alphabet}) #{@select_jp3.kind}"
           .level-item{style:'margin-top:7px'}
             -if @selected_jpcities.count == 2
               %input.button.is-danger{:onclick => "return_first_jp()",:type => "button", :value => "城市1", :class => "s1",:style =>'margin-right: 5px;'}              
