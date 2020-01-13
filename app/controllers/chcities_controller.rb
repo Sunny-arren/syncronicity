@@ -19,6 +19,7 @@ class ChcitiesController < ApplicationController
   def search_result
     if Chcity.find_by(simplified: params[:keyword]).nil?
       redirect_to controller: :chcities, action: :search
+      flash[:notice] = "很抱歉！该城市的数据目前没有"
     else 
       @chcity = Chcity.find_by(simplified: params[:keyword])
       @jpcities = Jpcity2.where(latitude_id: @chcity.chcity2.latitude_id-5..@chcity.chcity2.latitude_id+5)

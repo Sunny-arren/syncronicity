@@ -2,6 +2,7 @@ class ChclimatesController < ApplicationController
   def search_result
     if Chcity.find_by(simplified: params[:keyword]).nil?
       redirect_to controller: :chcities, action: :search
+      flash[:notice] = "很抱歉！该城市的数据目前没有"
     else    
       @chcity = Chcity.find_by(simplified: params[:keyword])
       if @chcity.chclimate.middle_temp.present? && @chcity.chclimate.rain_total.present?
@@ -17,10 +18,12 @@ class ChclimatesController < ApplicationController
           @ordered_jpcities = @selected_jpcities.sort{|a,b| a[1]<=>b[1]}.sort{|a,b| a[2] <=> b[2]}
           gon.ordered_jpcities = @ordered_jpcities
         else
-          render template: "chcities/search/"       
+          redirect_to controller: :chcities, action: :search
+          flash[:notice] = "很抱歉！跟该城市类似气候的日本城市数据没有"
         end
       else
-        render template: "chcities/search/"
+        redirect_to controller: :chcities, action: :search
+        flash[:notice] = "很抱歉！该城市的气候相关数据目前没有"       
       end
     end
   end  

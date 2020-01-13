@@ -24,7 +24,7 @@ class JpcitiesController < ApplicationController
   def search_result
     if Jpcity.find_by(jpkanji: params[:keyword]).nil?
      redirect_to controller: :jpcities, action: :search
-     flash.now[:notice] = "該当する都市のレコードがありません"
+     flash[:notice] = "該当する都市のレコードがありません"
     else 
      @jpcity = Jpcity.find_by(jpkanji: params[:keyword])
      @chcities = Chcity2.where(latitude_id: @jpcity.jpcity2.latitude_id-5..@jpcity.jpcity2.latitude_id+5)

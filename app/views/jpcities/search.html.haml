@@ -7,7 +7,7 @@
         %p.jp-search-field__middle__stage__latitude 
           ◆◆◆◆◆◆類似緯度サーチ◆◆◆◆◆◆ 
         %p.jp-search-field__middle__stage__latitude 
-          任意の日本の都市名をご入力ください＾＾
+          任意の日本の都市名をご入力ください^^
         .jp-search-field__middle__stage__latitude__form-box
           .jp-search-field__middle__stage__latitude__form-box__form
             = form_tag("jpcities/search_result", method: :get) do
@@ -24,6 +24,8 @@
                 %label.search-icon.submit-stage_cli
                   = fa_icon 'search fa-lg',class: "submit_cli"
               #jpcity-search-result-climate
-        .jp-search-field__middle__stage__change-button
+        .jp-search-field__middle__stage__buttons
           %input.button.change_country{:onclick => "change_country_jp()",:type => "button", :value => "Change Country"} 
+          %input.button.update{:onclick => "urlReplace()",:type => "button", :value => "Update"}  
     .jp-search-field__bottom
+    
