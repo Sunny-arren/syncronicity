@@ -90,6 +90,11 @@
         %li{style:'list-style: none;'}
           %p{style:'margin-left: 10px;'}
             年間平均気温/年間降水量：
+            %small{style:'text-transform: full-width; text-decoration: none;'} 
+              - if @jpcity.jpclimate.temp_ave = ""
+                = "#{@jpcity.jpclimate.middle_temp}℃、#{@jpcity.jpclimate.rain_total}mm"
+              -else
+                = "#{@jpcity.jpclimate.temp_ave}℃,#{@jpcity.jpclimate.rain_total}mm" 
         %li{style:'list-style: none;'}
           %p{style:'margin-left: 10px;'}
             暖かさの指数:
