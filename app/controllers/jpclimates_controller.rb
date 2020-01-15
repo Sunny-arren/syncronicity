@@ -25,7 +25,7 @@ class JpclimatesController < ApplicationController
       redirect_to controller: :jpcities, action: :search
       flash[:notice] = "入力した都市の気候のデータがありません" 
      end
-  end 
+  end
 end
 
 def show 
