@@ -26,6 +26,7 @@ class ChclimatesController < ApplicationController
         flash[:notice] = "很抱歉！该城市的气候相关数据目前没有"       
       end
     end
+    @search_pattern = "气候"
   end  
   
   def show 

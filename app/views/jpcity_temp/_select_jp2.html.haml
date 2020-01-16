@@ -18,7 +18,7 @@
           - @select_jp4 = Jpcity.find(@ordered_jpcities[3][0])
         .content
           %p{style:'font-size: 16px; color: #69707a; line-height: 24px;'} 
-            类似纬度的日本城市是：
+            = "类似#{@search_pattern}的日本城市是："
           %strong{style:'font-size: 19px; text-align: 25px;'}
             = "#{@select_jp2.pref}  #{@select_jp2.jpkanji} (#{@select_jp2.alphabet}) #{@select_jp2.kind}"
           .level-item{style:'margin-top:7px'}

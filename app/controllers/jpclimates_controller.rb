@@ -26,6 +26,7 @@ class JpclimatesController < ApplicationController
       flash[:notice] = "入力した都市の気候のデータがありません" 
      end
   end
+  @search_pattern = "気候"
 end
 
 def show 

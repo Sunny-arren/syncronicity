@@ -18,7 +18,7 @@
           - @select_ch4 = Chcity.find(@ordered_chcities[3][0])
         .content
           %p{style:'font-size: 16px; color: #69707a; line-height: 24px;'} 
-            緯度の近い中国の都市は、
+            = "#{@search_pattern}の近い中国の都市は、"
           %strong{style:'font-size: 19px; text-align: 25px;'}
             - @province = Province.find(@select_ch3.province_id)
             - if @select_ch3.id >= 29 && @select_ch3.id <= 32

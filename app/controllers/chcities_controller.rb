@@ -32,6 +32,7 @@ class ChcitiesController < ApplicationController
      @ordered_jpcities = @selected_jpcities.sort_by!{|a,b|b}.map{|k,v| k}.map.with_index{|v,i|[v,i]}
      gon.ordered_jpcities = @ordered_jpcities
     end
+    @search_pattern = "纬度"
   end
    
   def show 
