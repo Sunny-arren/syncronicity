@@ -1,4 +1,4 @@
-.body {
+body {
   background-image: url("<%= asset-path("background_image.png") %>");
   filter: brightness(0.8);
   background-size: cover;
@@ -6,7 +6,7 @@
   width: 100vw;
   font-family: 'Avenir','Helvetica Neue','Helvetica','Arial','Hiragino Sans','ヒラギノ角ゴシック',YuGothic,'Yu Gothic','メイリオ', Meiryo,'ＭＳ Ｐゴシック','MS PGothic'  
   }
-.body::before{
+body::before{
   content: '';
   position: absolute;
   top: -5px;
